@@ -36,7 +36,7 @@ export class CarritoComponent implements OnInit {
     private compraService: CompraService,
     private loginService: LoginService,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.compraService.existeCompra()) {
@@ -123,7 +123,6 @@ export class CarritoComponent implements OnInit {
 
     let unidadPrecio: string = unidad_cantidad;
     if (unidad_cantidad == 'gr' || unidad_cantidad == 'kg') {
-
       const radios_precio = document.getElementsByName('unidadPrecio');
       radios_precio.forEach((radio) => {
         if ((<HTMLInputElement>radio).checked) {
@@ -221,8 +220,8 @@ export class CarritoComponent implements OnInit {
           console.error('No se pudo finalizar la compra', error);
         },
         complete: () => {
-          console.log("Complete get or create product");
-        }
+          console.log('Complete get or create product');
+        },
       });
     } else {
       this.totalActual += precioEnBaseACantidad;
@@ -338,19 +337,36 @@ export class CarritoComponent implements OnInit {
   public finalizar(): void {
     Swal.fire({
       title: 'Finalizar Compra',
+      text: 'Ingrese lugar para esta compra:',
       showCancelButton: true,
       confirmButtonText: 'Finalizar',
-      cancelButtonText: 'Continuar',
+      cancelButtonText: 'volver',
       confirmButtonColor: 'rgb(95, 186, 233)',
-    }).then((result) => {
-      if (!result.isConfirmed) {
-        return;
-      }
-      this.guardarCompra();
-    });
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'sentences',
+      },
+    })
+      .then((result) => {
+        if (!result.isConfirmed) {
+          return;
+        }
+        let nombre =  result.value.toString().trim();
+        //Con nombre
+        //verifico si no es vacio el campo , si es vacio, ingresa sin especificar
+        if (nombre == '' || result.value == null) {
+          nombre = 'Sin especificar';
+          this.toastr.warning('Sin especificar');
+        }
+        this.guardarCompra(nombre);
+      })
+      .catch((error) => {
+        this.toastr.error('Error al ingresar nombre');
+        console.error(error);
+      });
   }
 
-  public guardarCompra() {
+  public guardarCompra(supermercado:string) {
     const lista = this.getListProductosEnCarrito();
     const total = this.totalActual;
     const today = new Date();
@@ -366,10 +382,10 @@ export class CarritoComponent implements OnInit {
     if (min.length < 2) min = '0' + min;
     if (sec.length < 2) sec = '0' + sec;
 
-    const fecha = yyyy + '-' + mm + '-' + dd + " " + hh + ":" + min;
+    const fecha = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
     const presupuesto_inicial = this.presupuesto_inicial;
 
-    let compra: Compra = new Compra(lista, total, presupuesto_inicial, fecha);
+    let compra: Compra = new Compra(lista, total, presupuesto_inicial, fecha, supermercado);
 
     const id_usuario: number = this.loginService.getUsuario().id;
 
@@ -391,8 +407,8 @@ export class CarritoComponent implements OnInit {
         console.error('No se pudo finalizar la compra', error);
       },
       complete: () => {
-        console.log("Complete save compra");
-      }
+        console.log('Complete save compra');
+      },
     });
   }
 
@@ -415,7 +431,6 @@ export class CarritoComponent implements OnInit {
   }
 
   /*Extras*/
-
   public calcularPrecioEnBaseACantidad(
     cantidad: string,
     precio: string,
@@ -436,7 +451,6 @@ export class CarritoComponent implements OnInit {
       return Number((Number(precio) * Number(cantidad)).toFixed(2));
     }
   }
-
   //Tomo el nombre del producto seleccionado y se lo asigno al Input de los nombres
   public click_producto_faltante(
     nombre_producto: HTMLParagraphElement,
@@ -486,6 +500,7 @@ export class CarritoComponent implements OnInit {
     //obtengo la unidad
     this.unidadChecked_cantidad = unidad;
   }
+
   public SetChecked_precio(unidad: string) {
     //obtengo la unidad
     this.unidadChecked_precio = unidad;
