@@ -7,21 +7,31 @@
 # Vamos al Super
 
 Vamos al Super es un proyecto personal que consiste en una aplicación web diseñada especialmente para dispositivos móviles, y que permite gestionar fácilmente una lista de compras. La aplicación ofrece varias opciones para iniciar sesión y permite agregar, editar y eliminar productos de la lista de compras, así como gestionar el presupuesto asignando precios a los productos.
-¡Prueba la aplicación haciendo [Click Aqui](https://vamos-al-supermercado.web.app/login)🚀!
+
+## ¡Prueba la aplicación!
+
+[Desplegado en Netlify](https://vamos-al-super.netlify.app/login)🚀!
+
+[Desplegado en Firebase](https://vamos-al-supermercado.web.app/login)🚀!
+
+[Desplegado en Railway -- DEPRECATED](https://vamos-al-super.up.railway.app/login)
+
+Para levantar el proyecto en local ejecutar en la consola:
+```
+npm install
+ng serve
+```
+
+
+## Tecnologias
 
 En este proyecto se utilizaron las siguientes herramientas y tecnologías:
 
-- `Angular` como framework.
+- `Angular` como framework con `HTML` y `CSS`.
 - `TypeScript` como lenguaje de programación.
-- `HTML` para la estructura de la página web.
-- `CSS` para estilizar la página web.
-- `NoSQL` como base de datos.
-- `Firebase` para el despliegue y hosting.
-- Buenas prácticas de `programación` y `seguridad` web.
+- `SQL` como base de datos.
 
 <br>
-
----
 
 ## 🔎 Qué se puede hacer?
 ---
